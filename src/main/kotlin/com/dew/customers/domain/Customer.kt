@@ -4,6 +4,8 @@ import io.micronaut.core.annotation.Creator
 import io.micronaut.core.annotation.Introspected
 import org.bson.codecs.pojo.annotations.BsonCreator
 import org.bson.codecs.pojo.annotations.BsonProperty
+import java.time.Clock
+import java.time.Instant
 
 @Introspected
 data class Customer @Creator @BsonCreator constructor(
@@ -14,4 +16,10 @@ data class Customer @Creator @BsonCreator constructor(
     @field:BsonProperty("email") @param:BsonProperty("email") var email: String?,
 ) {
     constructor(id: String, name: String, lastName: String) : this(id, name, lastName, null, null)
+
+    @field:BsonProperty("createdAt")
+    val createdAt: Instant = Instant.now(Clock.systemUTC())
+
+    @field:BsonProperty("updatedAt")
+    var updatedAt: Instant? = null
 }
