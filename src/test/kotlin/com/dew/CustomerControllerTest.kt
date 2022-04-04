@@ -4,12 +4,13 @@ import com.dew.MongoDbUtils.closeMongoDb
 import com.dew.MongoDbUtils.mongoDbUri
 import com.dew.MongoDbUtils.startMongoDb
 import com.dew.customers.application.create.CreateCustomerCommand
+import io.micronaut.http.HttpStatus
 import io.micronaut.http.HttpStatus.CREATED
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
@@ -27,6 +28,28 @@ class CustomerControllerTest : TestPropertyProvider {
         val status = customerClient.save(customer)
 
         assertEquals(CREATED, status)
+    }
+
+    @Test
+    fun find_customer_should_return_not_found() {
+        val response = customerClient.findById("321")
+
+        assertNotNull(response)
+        assertEquals(HttpStatus.NOT_FOUND, response.status)
+        assertNull(response.body())
+    }
+
+    @Test
+    fun find_customer_should_return_ok() {
+        val customer = CreateCustomerCommand("1234", "Manolo", "Jesus")
+        val status = customerClient.save(customer)
+        assertEquals(CREATED, status)
+
+        val response = customerClient.findById("1234")
+
+        assertNotNull(response)
+        assertEquals(HttpStatus.OK, response.status)
+        assertNotNull(response.body())
     }
 
     override fun getProperties(): Map<String, String> {
