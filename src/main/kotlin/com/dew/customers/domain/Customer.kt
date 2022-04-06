@@ -6,6 +6,7 @@ import org.bson.codecs.pojo.annotations.BsonCreator
 import org.bson.codecs.pojo.annotations.BsonProperty
 import java.time.Clock
 import java.time.Instant
+import java.util.Date
 
 @Introspected
 data class Customer @Creator @BsonCreator constructor(
@@ -18,8 +19,8 @@ data class Customer @Creator @BsonCreator constructor(
     constructor(id: String, name: String, lastName: String) : this(id, name, lastName, null, null)
 
     @field:BsonProperty("createdAt")
-    val createdAt: Instant = Instant.now(Clock.systemUTC())
+    val createdAt: Date = Date.from(Instant.now(Clock.systemUTC()))
 
     @field:BsonProperty("updatedAt")
-    var updatedAt: Instant? = null
+    var updatedAt: Date? = null
 }
