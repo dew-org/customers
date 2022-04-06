@@ -1,6 +1,6 @@
 package com.dew.customers.application
 
-import java.time.Instant
+import java.util.*
 
 data class CustomerResponse(
     val id: String,
@@ -8,6 +8,6 @@ data class CustomerResponse(
     val lastName: String,
     val phoneNumber: String?,
     val email: String?,
-    val createdAt: Instant,
-    var updatedAt: Instant?
+    val createdAt: Date,
+    var updatedAt: Date?
 )
