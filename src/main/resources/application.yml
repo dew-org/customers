@@ -1,6 +1,8 @@
 micronaut:
   application:
     name: customers
+  server:
+    port: -1
 consul:
   client:
     default-zone: ${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}
