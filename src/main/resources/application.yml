@@ -1,6 +1,11 @@
 micronaut:
   application:
     name: customers
+consul:
+  client:
+    default-zone: ${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}
+    registration:
+      enabled: true
 netty:
   default:
     allocator:
