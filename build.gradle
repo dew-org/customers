@@ -61,7 +61,7 @@ tasks {
         }
     }
     dockerBuild {
-        images = ["dew-org/customers:latest"]
+        images = ["deworg/customers:latest"]
     }
 }
 graalvmNative.toolchainDetection = false
