@@ -3,6 +3,7 @@ package com.dew.customers.domain
 import io.micronaut.core.annotation.Creator
 import io.micronaut.core.annotation.Introspected
 import org.bson.codecs.pojo.annotations.BsonCreator
+import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.codecs.pojo.annotations.BsonProperty
 import java.time.Clock
 import java.time.Instant
@@ -10,7 +11,7 @@ import java.util.Date
 
 @Introspected
 data class Customer @Creator @BsonCreator constructor(
-    @field:BsonProperty("id") @param:BsonProperty("id") val id: String,
+    @field:BsonProperty("id") @param:BsonProperty("id") @field:BsonId val id: String,
     @field:BsonProperty("name") @param:BsonProperty("name") val name: String,
     @field:BsonProperty("lastName") @param:BsonProperty("lastName") val lastName: String,
     @field:BsonProperty("phoneNumber") @param:BsonProperty("phoneNumber") var phoneNumber: String?,

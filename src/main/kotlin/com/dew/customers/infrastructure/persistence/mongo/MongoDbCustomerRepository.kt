@@ -17,7 +17,7 @@ class MongoDbCustomerRepository(
         Mono.from(collection.insertOne(customer)).map { true }.onErrorReturn(false)
 
     override fun findById(id: String): Mono<Customer> {
-        return Mono.from(collection.find(Filters.eq("id", id)))
+        return Mono.from(collection.find(Filters.eq("_id", id)))
     }
 
     private val collection: MongoCollection<Customer>
