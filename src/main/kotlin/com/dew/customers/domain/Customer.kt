@@ -11,7 +11,7 @@ import java.util.Date
 
 @Introspected
 data class Customer @Creator @BsonCreator constructor(
-    @field:BsonProperty("id") @param:BsonProperty("id") @field:BsonId val id: String,
+    @field:BsonProperty("_id") @param:BsonProperty("_id") @field:BsonId val id: String,
     @field:BsonProperty("name") @param:BsonProperty("name") val name: String,
     @field:BsonProperty("lastName") @param:BsonProperty("lastName") val lastName: String,
     @field:BsonProperty("phoneNumber") @param:BsonProperty("phoneNumber") var phoneNumber: String?,
