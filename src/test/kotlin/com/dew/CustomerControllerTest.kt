@@ -1,8 +1,8 @@
 package com.dew
 
-import com.dew.MongoDbUtils.closeMongoDb
-import com.dew.MongoDbUtils.mongoDbUri
-import com.dew.MongoDbUtils.startMongoDb
+import com.dew.common.infrastructure.persistence.mongo.testing.MongoDbUtils.closeMongoDb
+import com.dew.common.infrastructure.persistence.mongo.testing.MongoDbUtils.mongoDbUri
+import com.dew.common.infrastructure.persistence.mongo.testing.MongoDbUtils.startMongoDb
 import com.dew.customers.application.create.CreateCustomerCommand
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.HttpStatus.CREATED
