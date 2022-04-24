@@ -7,6 +7,7 @@ import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
+
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 
@@ -14,8 +15,8 @@ import javax.validation.constraints.NotBlank
 interface CustomerClient {
 
     @Post
-    fun save(@Valid command: CreateCustomerCommand): HttpStatus
+    HttpStatus save(@Valid CreateCustomerCommand command)
 
     @Get("{id}")
-    fun findById(@NotBlank id: String): HttpResponse<CustomerResponse>
+    HttpResponse<CustomerResponse> findById(@NotBlank String id)
 }

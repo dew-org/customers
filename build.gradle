@@ -2,6 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.6.10"
     id("org.jetbrains.kotlin.kapt") version "1.6.10"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.6.10"
+    id("groovy")
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("io.micronaut.application") version "3.3.2"
 }
@@ -42,6 +43,7 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:mongodb")
     testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.testcontainers:spock")
 
     compileOnly("org.graalvm.nativeimage:svm")
 
@@ -74,7 +76,7 @@ tasks {
 graalvmNative.toolchainDetection = false
 micronaut {
     runtime("netty")
-    testRuntime("junit5")
+    testRuntime("spock2")
     processing {
         incremental(true)
         annotations("com.dew.*")
