@@ -12,7 +12,7 @@ env:
   REGISTRY: docker.io
 
 jobs:
-  avoid_reduncy:
+  avoid_redundancy:
 
     runs-on: ubuntu-latest
 
