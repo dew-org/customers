@@ -1,0 +1,7 @@
+micronaut:
+  security:
+    enabled: false
+consul:
+  client:
+    registration:
+      enabled: false
