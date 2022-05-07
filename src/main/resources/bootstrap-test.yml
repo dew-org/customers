@@ -1,0 +1,13 @@
+micronaut:
+  application:
+    name: customers
+  security:
+    enabled: false
+  config-client:
+    enabled: false
+consul:
+  client:
+    registration:
+      enabled: false
+    config:
+      enabled: false
