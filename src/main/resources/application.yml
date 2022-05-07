@@ -3,6 +3,8 @@ micronaut:
     name: customers
     instance:
       id: ${random.shortuuid}
+  config-client:
+    enabled: true
   security:
     authentication: bearer
     token:

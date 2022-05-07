@@ -1,6 +1,8 @@
 micronaut:
   security:
     enabled: false
+  config-client:
+    enabled: true
 consul:
   client:
     registration:
