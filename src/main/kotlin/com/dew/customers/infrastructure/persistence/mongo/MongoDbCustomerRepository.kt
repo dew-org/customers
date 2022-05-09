@@ -16,36 +16,40 @@ class MongoDbCustomerRepository(
 ) : CustomerRepository {
 
     override fun save(customer: Customer): Mono<Boolean> {
-        val document = Document("_id", customer.id)
-            .append("name", customer.name)
-            .append("lastName", customer.lastName)
-            .append("phoneNumber", customer.phoneNumber)
-            .append("email", customer.email)
-            .append("createdAt", customer.createdAt)
-
-        return Mono.from(collection.insertOne(document)).map { true }
+        return Mono.from(collection.insertOne(customer.toDocument()))
+            .map { true }
             .onErrorReturn(false)
     }
 
     override fun findById(id: String): Mono<Customer> {
         return Mono.from(collection.find(Filters.eq("_id", id)))
-            .mapNotNull { document ->
-                val customer = Customer(
-                    id = document["_id"].toString(),
-                    name = document.getString("name"),
-                    lastName = document.getString("lastName"),
-                    phoneNumber = document.getString("phoneNumber"),
-                    email = document.getString("email"),
-                    createdAt = document.getDate("createdAt")
-                )
-
-                customer.updatedAt = document.getDate("updatedAt")
-
-                customer
-            }
+            .mapNotNull { it.toCustomer() }
     }
 
     private val collection: MongoCollection<Document>
         get() = mongoClient.getDatabase(mongoDbConfiguration.name)
             .getCollection(mongoDbConfiguration.collection)
+
+    private fun Customer.toDocument(): Document =
+        Document("_id", id)
+            .append("name", name)
+            .append("lastName", lastName)
+            .append("phoneNumber", phoneNumber)
+            .append("email", email)
+            .append("createdAt", createdAt)
+
+    private fun Document.toCustomer(): Customer {
+        val customer = Customer(
+            id = getString("_id"),
+            name = getString("name"),
+            lastName = getString("lastName"),
+            phoneNumber = getString("phoneNumber"),
+            email = getString("email"),
+            createdAt = getDate("createdAt")
+        )
+
+        customer.updatedAt = getDate("updatedAt")
+
+        return customer
+    }
 }
