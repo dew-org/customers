@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: CI/CD
 
 on:
   push:
@@ -45,6 +45,35 @@ jobs:
         with:
           name: build
           path: build
+
+  coverage_report:
+
+    needs: [ build ]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
+
+      - name: run coverage report
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: jacocoTestReport
+
+      - name: upload coverage report
+        uses: codecov/codecov-action@v1
 
   publish:
 

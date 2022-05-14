@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt") version "1.6.10"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.6.10"
     id("groovy")
+    id("jacoco")
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("io.micronaut.application") version "3.3.2"
 }
@@ -56,6 +57,12 @@ application {
 }
 java {
     sourceCompatibility = JavaVersion.toVersion("11")
+}
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
 }
 
 tasks {
