@@ -2,6 +2,7 @@ package com.dew.customers.domain
 
 import io.micronaut.core.annotation.Creator
 import io.micronaut.core.annotation.Introspected
+import io.micronaut.core.annotation.ReflectiveAccess
 import org.bson.codecs.pojo.annotations.BsonCreator
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.codecs.pojo.annotations.BsonProperty
@@ -10,6 +11,7 @@ import java.time.Instant
 import java.util.Date
 
 @Introspected
+@ReflectiveAccess
 data class Customer @Creator @BsonCreator constructor(
     @field:BsonProperty("_id")
     @param:BsonProperty("_id")
@@ -33,9 +35,9 @@ data class Customer @Creator @BsonCreator constructor(
     var email: String?,
 
     @field:BsonProperty("createdAt")
+    @param:BsonProperty("createdAt")
     val createdAt: Date = Date.from(Instant.now(Clock.systemUTC()))
 ) {
-    constructor(id: String, name: String, lastName: String) : this(id, name, lastName, null, null)
 
     @field:BsonProperty("updatedAt")
     var updatedAt: Date? = null
