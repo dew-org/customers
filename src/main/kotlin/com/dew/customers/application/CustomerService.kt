@@ -1,6 +1,7 @@
 package com.dew.customers.application
 
 import com.dew.customers.application.create.CreateCustomerCommand
+import com.dew.customers.application.update.UpdateCustomerCommand
 import com.dew.customers.domain.Customer
 import com.dew.customers.domain.CustomerRepository
 import jakarta.inject.Singleton
@@ -30,4 +31,17 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         customer.createdAt,
         customer.updatedAt
     )
+
+    fun update(id: String, command: UpdateCustomerCommand): Mono<Boolean> {
+        return customerRepository.findById(id).flatMap {
+            val customerToUpdate = it.copy(
+                name = command.name,
+                lastName = command.lastName,
+                phoneNumber = command.phoneNumber,
+                email = command.email
+            )
+
+            customerRepository.update(customerToUpdate)
+        }
+    }
 }

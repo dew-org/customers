@@ -24,6 +24,13 @@ class MongoDbCustomerRepository(
         return Mono.from(collection.find(Filters.eq("_id", id)).first())
     }
 
+    override fun update(customer: Customer): Mono<Boolean> = Mono.from(
+        collection.replaceOne(
+            Filters.eq("_id", customer.id),
+            customer
+        )
+    ).map { true }.onErrorReturn(false)
+
     private val collection: MongoCollection<Customer>
         get() = mongoClient.getDatabase(mongoDbConfiguration.name)
             .getCollection(mongoDbConfiguration.collection, Customer::class.java)

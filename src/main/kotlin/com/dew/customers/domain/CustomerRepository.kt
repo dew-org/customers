@@ -8,4 +8,6 @@ interface CustomerRepository {
     fun save(@Valid customer: Customer): Mono<Boolean>
 
     fun findById(@NotBlank id: String): Mono<Customer>
+
+    fun update(@Valid customer: Customer): Mono<Boolean>
 }

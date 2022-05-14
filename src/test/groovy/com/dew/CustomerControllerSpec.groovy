@@ -1,6 +1,7 @@
 package com.dew
 
 import com.dew.customers.application.create.CreateCustomerCommand
+import com.dew.customers.application.update.UpdateCustomerCommand
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -22,33 +23,47 @@ class CustomerControllerSpec extends Specification implements TestPropertyProvid
     CustomerClient client
 
     def "interact with customers api"() {
-        when:
+        when: 'create a customer'
         var customer = new CreateCustomerCommand("123", "Manolo", "Jesus")
         var status = client.save(customer)
 
-        then:
+        then: 'the status should be created'
         status == HttpStatus.CREATED
 
-        when:
+        when: 'get a customer'
         var response = client.findById("123")
 
-        then:
+        then: 'the customer should be returned'
         response.status == HttpStatus.OK
         response.body.present
         response.body().id == "123"
 
-        when:
+        when: 'get a customer that does not exist'
         response = client.findById("321")
 
-        then:
+        then: 'the customer should not be returned'
         response.status == HttpStatus.NOT_FOUND
         !response.body.present
 
-        when:
+        when: 'create same customer again'
         client.save(customer)
 
-        then:
+        then: 'the status should be conflict'
         thrown(HttpClientResponseException)
+
+        when: 'update a customer'
+        customer = new UpdateCustomerCommand("Manolo", "Jesus", "111111111", "manolos@mail.com")
+        response = client.update("123", customer)
+
+        then: 'the status should be ok'
+        response.status == HttpStatus.OK
+
+        when: 'update a customer that does not exist'
+        customer = new UpdateCustomerCommand("Manolo", "Jesus", "111111111", null)
+        response = client.update("321", customer)
+
+        then: 'the status should be not found'
+        response.status == HttpStatus.NOT_FOUND
     }
 
     @Override
