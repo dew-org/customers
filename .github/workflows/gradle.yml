@@ -153,9 +153,14 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
 
+      - name: get tag
+        id: get_tag
+        run: |
+          - echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/v}
+
       - name: update deployment file
         run: |-
-          sed -i.back "s/customers:0.1.0/customers:${{ github.release.tag_name }}/g" customers/deployment.yml
+          sed -i.back "s/customers:0.1.0/customers:${{ steps.get_tag.outputs.SOURCE_TAG }}/g" customers/deployment.yml
       - name: deploy
         run: |-
           kubectl apply -f customers/deployment.yml
