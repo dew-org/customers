@@ -137,6 +137,10 @@ jobs:
       id-token: write
 
     steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'dew-org/k8s'
+
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v0'
@@ -148,10 +152,6 @@ jobs:
         with:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
-
-      - uses: actions/checkout@v3
-        with:
-          repository: 'dew-org/k8s'
 
       - name: update deployment file
         run: |-
