@@ -150,8 +150,8 @@ jobs:
       - name: Set up GKE credentials
         uses: google-github-actions/get-gke-credentials@v0
         with:
-          cluster_name: ${{ env.GKE_CLUSTER }}
-          location: ${{ env.GKE_ZONE }}
+          cluster_name: ${{ secrets.GKE_CLUSTER }}
+          location: ${{ secrets.GKE_ZONE }}
 
       - name: get tag
         id: get_tag
