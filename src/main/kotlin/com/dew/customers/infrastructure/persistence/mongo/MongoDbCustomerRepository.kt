@@ -1,5 +1,6 @@
 package com.dew.customers.infrastructure.persistence.mongo
 
+import com.dew.common.infrastructure.persistence.mongo.MongoDbConfiguration
 import com.dew.customers.domain.Customer
 import com.dew.customers.domain.CustomerRepository
 import com.mongodb.client.model.Filters
