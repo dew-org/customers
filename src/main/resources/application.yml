@@ -26,14 +26,7 @@ consul:
   client:
     config:
       format: yaml
-    default-zone: ${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}
-    registration:
-      enabled: true
-      prefer-ip-address: true
-      health-path: /health
-      check:
-        http: true
-    health-check: true
+    default-zone: ${CONSUL_HOST:localhost:8500}
 netty:
   default:
     allocator:
