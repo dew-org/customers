@@ -5,4 +5,4 @@ micronaut:
     enabled: true
 consul:
   client:
-    default-zone: ${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}
+    default-zone: ${CONSUL_HOST:localhost:8500}

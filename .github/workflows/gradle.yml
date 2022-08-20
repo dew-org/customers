@@ -41,6 +41,9 @@ jobs:
 
       - name: build with Gradle
         uses: gradle/gradle-build-action@v2
+        env:
+          USERNAME: cantte
+          TOKEN: ${{ github.token }}
         with:
           arguments: build
 
@@ -72,6 +75,9 @@ jobs:
 
       - name: run coverage report
         uses: gradle/gradle-build-action@v2
+        env:
+          USERNAME: cantte
+          TOKEN: ${{ github.token }}
         with:
           arguments: jacocoTestReport
 
@@ -131,10 +137,14 @@ jobs:
             ./gradlew check --continue --no-daemon
           fi
         env:
+          USERNAME: cantte
+          TOKEN: ${{ github.token }}
           TESTCONTAINERS_RYUK_DISABLED: true
 
       - name: build and push native image
         env:
+          USERNAME: cantte
+          TOKEN: ${{ github.token }}
           TESTCONTAINERS_RYUK_DISABLED: true
         run: |
           ./gradlew check dockerPushNative --no-daemon
