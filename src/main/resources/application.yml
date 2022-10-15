@@ -5,35 +5,13 @@ micronaut:
       id: ${random.shortuuid}
   config-client:
     enabled: true
-  security:
-    authentication: bearer
-    token:
-      jwt:
-        signatures:
-          jwks:
-            auth0:
-              url: https://${AUTH0_DOMAIN}/.well-known/jwks.json
-        enabled: true
-        claims-validators:
-          audience: ${AUTH0_AUDIENCE}
-          issuer: https://${AUTH0_DOMAIN}/
-    endpoints:
-      oauth:
-        enabled: false
-      login:
-        enabled: false
-consul:
-  client:
-    config:
-      format: yaml
-    default-zone: ${CONSUL_HOST:localhost:8500}
+db:
+  name: 'customers'
+  collection: 'customers'
 netty:
   default:
     allocator:
       max-order: 3
-db:
-  name: 'customers'
-  collection: 'customers'
 endpoints:
   health:
     enabled: true
