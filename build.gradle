@@ -33,6 +33,8 @@ dependencies {
 
     implementation 'com.dew:common:0.1.4'
 
+    implementation 'io.micronaut.gcp:micronaut-gcp-secret-manager'
+
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
