@@ -5,4 +5,7 @@ micronaut:
     enabled: true
 consul:
   client:
-    default-zone: ${CONSUL_HOST:localhost:8500}
+    registration:
+      enabled: false
+    config:
+      enabled: false

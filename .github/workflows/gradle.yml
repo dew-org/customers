@@ -10,9 +10,6 @@ on:
 
 env:
   REGISTRY: docker.io
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
-  GKE_ZONE: ${{ secrets.GKE_ZONE }}
 
 jobs:
   avoid_redundancy:
@@ -121,72 +118,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: setup GraalVM CE
-        uses: graalvm/setup-graalvm@v1
-        with:
-          version: '22.1.0'
-          java-version: '11'
-          components: 'native-image'
-
-      - name: build and test native image
-        run: |
-          if ./gradlew tasks --no-daemon --all | grep -w "testNativeImage"
-          then
-            ./gradlew check testNativeImage --continue --no-daemon
-          else
-            ./gradlew check --continue --no-daemon
-          fi
-        env:
-          USERNAME: cantte
-          TOKEN: ${{ github.token }}
-          TESTCONTAINERS_RYUK_DISABLED: true
-
-      - name: build and push native image
+      - name: build and push docker image
         env:
           USERNAME: cantte
           TOKEN: ${{ github.token }}
           TESTCONTAINERS_RYUK_DISABLED: true
         run: |
-          ./gradlew check dockerPushNative --no-daemon
-
-  deploy:
-
-    if: github.event_name == 'release'
-
-    needs: [ publish ]
-
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          repository: 'dew-org/k8s'
-
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
-        with:
-          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
-
-      - name: Set up GKE credentials
-        uses: google-github-actions/get-gke-credentials@v0
-        with:
-          cluster_name: ${{ secrets.GKE_CLUSTER }}
-          location: ${{ secrets.GKE_ZONE }}
-
-      - name: get tag
-        id: get_tag
-        run: |
-          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/v}
-
-      - name: update deployment file
-        run: |-
-          sed -i.back "s/customers:0.1.0/customers:${{ steps.get_tag.outputs.SOURCE_TAG }}/g" customers/deployment.yml
-      - name: deploy
-        run: |-
-          kubectl apply -f customers/deployment.yml
+          ./gradlew check dockerPush --no-daemon

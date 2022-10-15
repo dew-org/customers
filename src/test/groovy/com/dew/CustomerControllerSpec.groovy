@@ -16,7 +16,7 @@ import spock.lang.Specification
 @Testcontainers
 class CustomerControllerSpec extends Specification implements TestPropertyProvider {
 
-    static MongoDBContainer mongo = new MongoDBContainer(DockerImageName.parse("mongo:latest"))
+    static MongoDBContainer mongo = new MongoDBContainer(DockerImageName.parse("mongo:5.0.12"))
             .withExposedPorts(27017)
 
     @Inject
